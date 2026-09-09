@@ -1,0 +1,93 @@
+name: Repo
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-deb.yml
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup
+        run: sudo apt-get update && sudo apt-get install -y dpkg-dev
+
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: YTKACE-deb-*
+          merge-multiple: true
+          path: fresh
+
+      - name: Attach packages to release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" fresh/*.deb --clobber
+
+      - name: Collect every published package
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p site/debs
+          cp fresh/*.deb site/debs/ 2>/dev/null || true
+          for tag in $(gh release list --limit 100 --json tagName -q '.[].tagName'); do
+            gh release download "$tag" --pattern '*.deb' --dir site/debs --clobber || true
+          done
+          ls -la site/debs
+
+      - name: Build index
+        run: |
+          cd site
+          dpkg-scanpackages --multiversion debs > Packages
+          gzip -9kf Packages
+          printf '' > .nojekyll
+          date_now="$(date -Ru | sed 's/+0000/GMT/')"
+          {
+            echo "Origin: YTKACE"
+            echo "Label: YTKACE"
+            echo "Suite: stable"
+            echo "Version: 1.0"
+            echo "Codename: ios"
+            echo "Architectures: iphoneos-arm64 iphoneos-arm64e"
+            echo "Components: main"
+            echo "Description: YTKACE - open-source YouTube enhancement for iOS"
+            echo "Date: $date_now"
+          } > Release
+          for algo in MD5Sum:md5sum SHA1:sha1sum SHA256:sha256sum; do
+            label="${algo%%:*}"
+            tool="${algo##*:}"
+            echo "$label:" >> Release
+            for file in Packages Packages.gz; do
+              echo " $($tool "$file" | cut -d' ' -f1) $(stat -c%s "$file") $file" >> Release
+            done
+          done
+          cat Release
+
+      - name: Landing page
+        run: |
+          version="$(awk -F': ' '/^Version:/ {print $2}' control | tr -d '\r')"
+          mkdir -p site/screenshots
+          cp screenshots/framed/*.png site/screenshots/
+          sed "s|Version 0\.0\.0|Version ${version}|" web/index.html > site/index.html
+          grep -o 'Version [0-9.]*' site/index.html
+
+      - name: Icon
+        run: |
+          icon=$(find Resources -iname 'CydiaIcon.png' -o -iname 'icon*.png' | head -1)
+          if [[ -n "$icon" ]]; then cp "$icon" site/CydiaIcon.png; fi
+
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          publish_branch: gh-pages
+          force_orphan: true

@@ -1,0 +1,15 @@
+.theos/
+packages/
+build/
+.build/
+dist/
+DerivedData/
+*.dSYM/
+*.ipa
+*.deb
+*.zip
+*.xcarchive
+.DS_Store
+__pycache__/
+*.pyc
+tmp/
