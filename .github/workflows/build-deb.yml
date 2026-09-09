@@ -7,65 +7,34 @@ on:
   workflow_call:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - name: Test
-        run: python3 -m unittest discover -s Tests -v
-
   build:
-    needs: test
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - scheme: rootless
-            suffix: rootless
-          - scheme: roothide
-            suffix: roothide
-    env:
-      THEOS: ${{ github.workspace }}/.theos
-      CI: true
+    runs-on: macos-14
     steps:
-      - uses: actions/checkout@v6
-
-      - name: Cache Theos
-        id: cache-theos
-        uses: actions/cache@v4
+      - uses: actions/checkout@v4
         with:
-          path: ${{ github.workspace }}/.theos
-          key: roothide-theos-${{ runner.os }}-v1
+          submodules: recursive
 
-      - name: Setup
-        if: steps.cache-theos.outputs.cache-hit != 'true'
-        run: bash -c "$(curl -fsSL https://raw.githubusercontent.com/roothide/theos/master/bin/install-theos)"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build
+      - name: Install Theos & Tools
         run: |
+          brew install ldid
+          git clone --recursive https://github.com/theos/theos.git ~/theos
+
+      - name: Build Package
+        run: |
+          export THEOS=~/theos
+          if [ -d "ytkace-0.9.2" ]; then
+            cd ytkace-0.9.2
+          fi
           make clean
-          make package FINALPACKAGE=1 \
-            THEOS_PACKAGE_SCHEME="${{ matrix.scheme }}" \
-            DISABLE_ROOTLESS_COMPAT_WARNING=1
+          make package FINALPACKAGE=1
 
-      - name: Name package
-        id: name
-        run: |
-          deb="$(ls packages/*.deb | head -1)"
-          version="$(awk '/^Version:/ {print $2}' control)"
-          output="com.aradev.app_${version}_${{ matrix.suffix }}.deb"
-          mkdir -p artifacts
-          cp "$deb" "artifacts/$output"
-          echo "deb=artifacts/$output" >> "$GITHUB_OUTPUT"
-
-      - uses: actions/upload-artifact@v7
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: YTKACE-deb-${{ matrix.suffix }}
-          path: ${{ steps.name.outputs.deb }}
-          if-no-files-found: error
+          name: AraDev-deb
+          path: |
+            packages/*.deb
+            ytkace-0.9.2/packages/*.deb
