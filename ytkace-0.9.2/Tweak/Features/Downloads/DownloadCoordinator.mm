@@ -502,7 +502,7 @@ void YTKACESaveVideoToPhotosFile(NSURL *url,
     }
     __weak YTKACEDownloadCoordinator *weakSelf = self;
     NSArray *actions = @[
-        [self sheetAction:YTKACELocalized(@"YTKACE Library") icon:@"arrow.down.circle"
+        [self sheetAction:YTKACELocalized(@"AraDev Library") icon:@"arrow.down.circle"
             secondary:nil handler:^{
                 weakSelf.pendingSavesToPhotos = NO;
                 if (continuation != NULL) continuation();
@@ -1285,11 +1285,11 @@ void YTKACESaveVideoToPhotosFile(NSURL *url,
                 if (error.code == 3302 &&
                     [error.domain isEqualToString:PHPhotosErrorDomain]) {
                     YTKACEShowNotice(YTKACELocalized(
-                        @"Photos cannot import this format. Kept in the YTKACE "
+                        @"Photos cannot import this format. Kept in the AraDev "
                         @"library instead."));
                 } else if (error != nil) {
                     YTKACEShowNotice(YTKACELocalized(
-                        @"Could not add to Photos. Kept in the YTKACE library "
+                        @"Could not add to Photos. Kept in the AraDev library "
                         @"instead."));
                 }
             }

@@ -188,7 +188,7 @@
 "Swap clickbait titles for wording submitted by DeArrow contributors. Videos nobody has submitted keep the original title." = "ناونیشانە سەرنجڕاکێشەکان دەگۆڕێت بە دەقی نێردراوی بەشداربووانی DeArrow. ئەو ڤیدیۆانەی پێشنیاریان بۆ نەنێردراوە، ناونیشانی ڕەسەنیان دەمێنێتەوە.";
 "Takes effect the next time YouTube starts.\n\nIf a video stops unexpectedly, YTKACE waits about a second to be sure it is genuinely stuck rather than buffering, then makes up to three attempts to get it moving again: resume, force a re-buffer, and finally reload the stream. If none of those work it stops interfering and lets YouTube show its normal error, so a broken video still reports itself as broken.\n\nScrubbing, pausing, or moving to another video cancels an attempt straight away. Live streams reload rather than seek. Leave this off if playback is already reliable for you." = "لە کاتی داهاتووی کردنەوەی YouTube کاردەکات.\n\nئەگەر ڤیدیۆیەک بەشێوەیەکی چاوەڕواننەکراو ڕاوەستا، AraDev نزیکەی چرکەیەک چاوەڕێ دەکات بۆ دڵنیابوون لەوەی بەڕاستی ڕاوەستاوە نەک لە بارکردندایە، پاشان تا سێ هەوڵ دەدات: بەردەوامبوون، دووبارە بارکردن، و لە کۆتاییدا دووبارە بارکردنی ستریم. ئەگەر هیچیان کاری نەکرد، دەست هەڵدەگرێت و ڕێگە دەدات YouTube هەڵەکەی خۆی پیشان بدات.\n\nگۆڕینی شوێن، وەستان، یان چوون بۆ ڤیدیۆیەکی تر هەوڵەکە ڕادەگرێت. ستریمی ڕاستەوخۆ دووبارە بار دەکرێت. ئەگەر لێدان باشە، بیهێڵەرەوە کوژاوە.";
 "The image is still loading." = "وێنەکە هێشتا بار دەبێت.";
-"YTKACE Library" = "کتێبخانەی AraDev";
+"AraDev Library" = "کتێبخانەی AraDev";
 "YouTube needs permission to add to Photos." = "YouTube پێویستی بە مۆڵەتە بۆ زیادکردن بۆ وێنەکان.";
 "Your changes take effect once YouTube restarts." = "گۆڕانکانت پاش دەستپێکردنەوەی YouTube کار دەکەن.";
 "Restore" = "گەڕاندنەوە";

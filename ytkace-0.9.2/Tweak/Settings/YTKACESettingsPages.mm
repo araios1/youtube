@@ -1390,7 +1390,7 @@ static NSDictionary *YTKACEPlayerControlsDefinition(void) {
             YTKACEToggle(@"Download Button", YTKACEDownloadKey, @"", @""),
             YTKACEPicker(@"Save downloads to",
                          @"YTKACE.Preference.Downloads.SaveLocation",
-                         @[@"YTKACE Library", @"Photos", @"Ask"],
+                         @[@"AraDev Library", @"Photos", @"Ask"],
                          @[@0, @1, @2], 0, @"", @""),
             YTKACEToggle(@"PiP Button", YTKACEPiPKey, @"", @""),
             YTKACEToggle(@"Loop Button", YTKACELoopKey, @"", @""),
