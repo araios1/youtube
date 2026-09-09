@@ -44,7 +44,7 @@ static NSArray<NSDictionary *> *YTKACENativeLayout(void) {
         @{@"kind": @"row", @"title": @"Navigation"},
         @{@"kind": @"row", @"title": @"Other"},
         @{@"kind": @"header", @"title": @"ABOUT"},
-        @{@"kind": @"row", @"title": @"itzzace", @"developer": @YES},
+        @{@"kind": @"row", @"title": @"AraDev", @"developer": @YES},
         @{@"kind": @"footer"}
     ];
 }
@@ -101,7 +101,7 @@ static NSString *YTKACENativeSettingsSubtitle(NSString *title) {
             @"Tabs": @"Choose and reorder bottom tabs",
             @"Gestures": @"Brightness, volume, hold and tap to seek",
             @"Other": @"OLED, startup, sharing, layout and prompts",
-            @"itzzace": @"Developer"
+            @"AraDev": @"Developer"
         };
     });
     NSString *value = subtitles[title];
@@ -201,7 +201,7 @@ static UIImage *YTKACENativeSettingsIconImage(NSString *title) {
             @"Wi-Fi Quality": @"wifi",
             @"Cellular Quality": @"antenna.radiowaves.left.and.right",
             @"Other": @"ellipsis.circle",
-            @"itzzace": @"person.crop.circle"
+            @"AraDev": @"person.crop.circle"
         };
     });
     NSString *symbol = symbols[title];
@@ -426,8 +426,8 @@ static void YTKACEUpdateNativeSettingsSection(id receiver, SEL selector,
         @"Wi-Fi Quality": [^UIViewController *{ return YTKACEMakeWiFiQualityController(); } copy],
         @"Cellular Quality": [^UIViewController *{ return YTKACEMakeCellularQualityController(); } copy],
         @"Other": [^UIViewController *{ return YTKACEMakeMiscOptionsController(); } copy],
-        @"itzzace": [^UIViewController *{
-            NSURL *URL = [NSURL URLWithString:@"https://github.com/itzzace/ytkace"];
+        @"AraDev": [^UIViewController *{
+            NSURL *URL = [NSURL URLWithString:@"https://t.me/aradeveloper7"];
             [UIApplication.sharedApplication openURL:URL options:@{}
                                    completionHandler:nil];
             return nil;

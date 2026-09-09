@@ -514,8 +514,8 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
     }
 
     UITableViewCell *cell = [self baseCellForTableView:tableView style:UITableViewCellStyleValue1];
-    cell.textLabel.text = YTKACELocalized(@"itzzace");
-    cell.detailTextLabel.text = @"AraDev";
+    cell.textLabel.text = YTKACELocalized(@"AraDev");
+    cell.detailTextLabel.text = @"developer";
     cell.imageView.image = YTKACEAssetImage(@"YTKIco", @"person.crop.circle");
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     return cell;
